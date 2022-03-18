@@ -19,10 +19,10 @@ namespace PortListener.Converters
 
             try
             {
-                tcpPacket = new TcpPacket(packet.BytesSegment);
-                ipv4Packet = new IPv4Packet(packet.BytesSegment);
+                tcpPacket = new TcpPacket(packet.HeaderDataSegment);
+                ipv4Packet = new IPv4Packet(packet.HeaderDataSegment);
             }
-            catch (Exception ex)
+            catch
             {
                 return null;
             }
@@ -35,7 +35,8 @@ namespace PortListener.Converters
                 SourcePort = tcpPacket.SourcePort.ToString(),
                 Data = Encoding.ASCII.GetString(packet.Bytes),
                 Hex = packet.PrintHex(),
-                Size = packet.Bytes.Length
+                Size = packet.Bytes.Length,
+                Protocol = ipv4Packet.Protocol
             };
         }
     }
